@@ -1,0 +1,30 @@
+
+<!--index.wxml-->
+<view class="container">
+  <view class="header">
+    <text>劳动时间记录</text>
+  </view>
+  
+  <view class="time-display">
+    <text class="current-time">{{currentTime}}</text>
+    <text class="date-info">{{currentDate}}</text>
+  </view>
+  
+  <view class="work-duration">
+    <text class="duration-label">今日工作时长</text>
+    <text class="duration-value">{{workDuration}}</text>
+  </view>
+  
+  <view class="status">
+    <text>{{lastAction}}</text>
+  </view>
+  
+  <view class="actions">
+    <view class="oval-button {{clockedIn || clockedOut ? 'clocked-in' : ''}}" bindtap="clockIn">
+      <text class="button-text">上班打卡</text>
+    </view>
+    <view class="oval-button" bindtap="clockOut">
+      <text class="button-text">下班打卡</text>
+    </view>
+  </view>
+</view>

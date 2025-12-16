@@ -1,0 +1,32 @@
+# 微信小程序项目 gitignore
+
+# 微信开发者工具生成的文件
+project.private.config.json
+*.log
+
+# 依赖目录
+node_modules/
+.miniprogram_npm/
+
+# 编译输出目录
+dist/
+build/
+
+# 临时文件
+*.tmp
+*.temp
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE 配置文件
+.vscode/
+.idea/
+
+# 腾讯云相关文件
+.cloudbase/container/debug.json
+
+# 其他
+*.zip
+*.rar

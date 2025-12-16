@@ -1,0 +1,94 @@
+/* edit.wxss */
+.container {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-height: 100vh;
+  padding-bottom: 20px;
+}
+
+.header {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.form {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 75px;
+  font-size: 15px;
+  color: #333;
+}
+
+.date-value {
+  flex: 1;
+  font-size: 15px;
+  color: #666;
+}
+
+.picker-view {
+  flex: 1;
+  padding: 6px 10px;
+  background-color: #f7f7f7;
+  border-radius: 4px;
+  font-size: 15px;
+  color: #333;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.picker-view:active {
+  background-color: #e0e0e0;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.actions button {
+  flex: 1;
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.actions button[type="default"] {
+  background-color: #f8f8f8;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.actions button[type="primary"] {
+  background-color: #07c160;
+  color: white;
+  border: 1px solid #07c160;
+}
+
+.actions button[type="warn"] {
+  background-color: #fa5151;
+  color: white;
+  border: 1px solid #fa5151;
+}

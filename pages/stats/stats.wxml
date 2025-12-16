@@ -1,0 +1,58 @@
+
+<!--stats.wxml-->
+<view class="container">
+  <view class="header">
+    <text>打卡统计</text>
+  </view>
+  
+  <view class="stats-cards">
+    <view class="card">
+      <view class="card-title">总打卡天数</view>
+      <view class="card-value">{{stats.totalDays}}</view>
+    </view>
+    
+    <view class="card">
+      <view class="card-title">平均工作时长</view>
+      <view class="card-value">{{stats.avgWorkTime}}</view>
+    </view>
+    
+    <view class="card">
+      <view class="card-title">最早上班时间</view>
+      <view class="card-value">{{stats.earliestClockIn}}</view>
+    </view>
+    
+    <view class="card">
+      <view class="card-title">最晚下班时间</view>
+      <view class="card-value">{{stats.latestClockOut}}</view>
+    </view>
+  </view>
+  
+  <view class="filter-section">
+    <view class="filter-item">
+      <text>月份筛选：</text>
+      <picker mode="date" fields="month" value="{{selectedMonth}}" bindchange="onMonthChange">
+        <view class="picker">{{displayMonthText}}</view>
+      </picker>
+    </view>
+    <button class="reset-btn" bindtap="resetToRecentDays">最近30天</button>
+  </view>
+  
+  <view class="chart-section">
+    <view class="chart-title">{{chartTitle}}</view>
+    <canvas canvas-id="timeChart" class="chart-canvas"></canvas>
+    <view class="chart-legend">
+      <view class="legend-item">
+        <view class="legend-color" style="background-color: #1aad19;"></view>
+        <text>上班时间</text>
+      </view>
+      <view class="legend-item">
+        <view class="legend-color" style="background-color: #e64340;"></view>
+        <text>下班时间</text>
+      </view>
+      <view class="legend-item">
+        <view class="legend-color" style="background-color: #007aff;"></view>
+        <text>工作时长</text>
+      </view>
+    </view>
+  </view>
+</view>

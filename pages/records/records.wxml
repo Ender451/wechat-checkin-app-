@@ -1,0 +1,56 @@
+
+<!--records.wxml-->
+<view class="container">
+  <view class="header">
+    <text>打卡记录</text>
+  </view>
+  
+  <!-- 月份筛选 -->
+  <view class="filter-section">
+    <view class="filter-item">
+      <text>月份筛选：</text>
+      <picker mode="date" fields="month" value="{{selectedMonth}}" bindchange="onMonthChange">
+        <view class="picker">{{selectedMonth ? selectedMonth : '最近30天'}}</view>
+      </picker>
+    </view>
+    <button class="reset-btn" bindtap="resetToRecent">最近30天记录</button>
+  </view>
+  
+  <view class="record-table">
+    <!-- 表头 -->
+    <view class="table-row table-header">
+      <text class="table-cell date-cell">日期</text>
+      <text class="table-cell time-cell">上班</text>
+      <text class="table-cell time-cell">下班</text>
+      <text class="table-cell duration-cell">工作时长</text>
+    </view>
+    
+    <!-- 数据行 - 支持左滑删除 -->
+    <block wx:for="{{groupedRecords}}" wx:key="date">
+      <view class="record-wrapper">
+        <!-- 删除按钮层 -->
+        <view class="delete-layer" bindtap="deleteRecord" data-index="{{index}}">
+          <text class="delete-text">删除</text>
+        </view>
+        
+        <!-- 内容层 -->
+        <view class="content-layer" 
+              bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" 
+              data-index="{{index}}"
+              style="transform: translateX({{item.slideOffset || 0}}px);">
+          <view class="table-cell date-cell" bindtap="editRecord" data-index="{{index}}">
+            <view class="date-main">{{item.dateStr}}</view>
+            <view class="date-week">{{item.weekDay}}</view>
+          </view>
+          <text class="table-cell time-cell" bindtap="editRecord" data-index="{{index}}">{{item.clockIn || '--'}}</text>
+          <text class="table-cell time-cell" bindtap="editRecord" data-index="{{index}}">{{item.clockOut || '--'}}</text>
+          <text class="table-cell duration-cell" bindtap="editRecord" data-index="{{index}}">{{item.duration || '--'}}</text>
+        </view>
+      </view>
+    </block>
+    
+    <view wx:if="{{groupedRecords.length === 0}}" class="empty-tip">
+      <text>暂无打卡记录</text>
+    </view>
+  </view>
+</view>

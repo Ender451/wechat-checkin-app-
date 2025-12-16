@@ -1,0 +1,37 @@
+<!--edit.wxml-->
+<view class="container">
+  <view class="header">
+    <text>编辑打卡记录</text>
+  </view>
+  
+  <view class="form">
+    <view class="form-item">
+      <text class="label">日期：</text>
+      <text class="date-value">{{date}}</text>
+    </view>
+    
+    <view class="form-item">
+      <text class="label">上班时间：</text>
+      <picker mode="time" value="{{clockIn}}" bindchange="onClockInChange">
+        <view class="picker-view">
+          {{clockIn || '选择上班时间'}}
+        </view>
+      </picker>
+    </view>
+    
+    <view class="form-item">
+      <text class="label">下班时间：</text>
+      <picker mode="time" value="{{clockOut}}" bindchange="onClockOutChange">
+        <view class="picker-view">
+          {{clockOut || '选择下班时间'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  
+  <view class="actions">
+    <button type="default" bindtap="navigateBack">取消</button>
+    <button type="warn" bindtap="deleteRecord">删除当日记录</button>
+    <button type="primary" bindtap="saveRecords">保存</button>
+  </view>
+</view>
