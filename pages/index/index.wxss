@@ -1,21 +1,28 @@
 
 /* index.wxss */
 .container {
-  min-height: 100vh;
+  height: 100vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  justify-content: flex-start;
+  gap: 20px;
   background-color: #f5f5f5;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
-.header {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
+
+
+/* 统一的白色卡片样式 */
+.white-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 320px;
+  flex-shrink: 0;
 }
 
 /* 时间显示区域 */
@@ -24,12 +31,8 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  background-color: #fff;
-  padding: 25px 35px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 320px;
+  padding: 24px 30px;
+  margin-top: 0px;
 }
 
 .current-time {
@@ -46,47 +49,110 @@
   font-weight: 500;
 }
 
-/* 工作时长显示 - 始终显示 */
-.work-duration {
+/* 工作状态指示器 */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+}
+
+.status-text {
+  font-size: 15px;
+  color: #007aff;
+  font-weight: 600;
+}
+
+/* 工作时长卡片组 */
+.duration-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0;
+  width: 90%;
+  min-width: 320px;
+  max-width: 320px;
+  align-items: center;
+}
+
+.duration-cards-row {
+  display: flex;
+  gap: 0px;
+  width: 100%;
+}
+
+
+
+/* 总工作时长卡片样式 */
+.total-duration {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  box-sizing: border-box;
+}
+
+/* 半宽度卡片样式 */
+.half-width {
+  width: calc(50% - 4px);
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  background-color: #fff;
-  padding: 20px 25px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 320px;
+  padding: 16px 8px;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.half-width:first-child {
+  margin-right: 8px;
 }
 
 .duration-label {
-  font-size: 13px;
+  font-size: 12px;
   color: #666;
   font-weight: 500;
 }
 
 .duration-value {
-  font-size: 28px;
+  font-size: 16px;
   font-weight: bold;
-  color: #1aad19;
   font-family: 'Courier New', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
-/* 状态信息 */
-.status {
+.duration-value.total {
+  color: #007aff;
+}
+
+.duration-value.main {
+  color: #1aad19;
+}
+
+.duration-value.overtime {
+  color: #ff6b35;
+}
+
+/* 操作状态提示 */
+.action-status {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fff;
-  padding: 12px 20px;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 320px;
+  padding: 12px 18px;
 }
 
-.status text {
+.action-status text {
   font-size: 14px;
   color: #333;
   font-weight: 500;
@@ -97,15 +163,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
   width: 90%;
   max-width: 320px;
+  flex-shrink: 0;
 }
 
 /* 椭圆形按钮 */
 .oval-button {
   width: 100%;
-  height: 50px;
+  height: 45px;
   background-color: #1aad19;
   border-radius: 25px;
   display: flex;
@@ -114,6 +181,7 @@
   box-shadow: 0 2px 8px rgba(26, 173, 25, 0.3);
   transition: all 0.2s ease;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .oval-button:active {
@@ -122,15 +190,15 @@
   box-shadow: 0 1px 4px rgba(26, 173, 25, 0.3);
 }
 
-/* 已打卡状态的按钮 */
-.oval-button.clocked-in {
-  background-color: #666;
-  box-shadow: 0 2px 8px rgba(102, 102, 102, 0.3);
+/* 禁用状态的按钮 */
+.oval-button.disabled {
+  background-color: #e0e0e0;
+  box-shadow: none;
 }
 
-.oval-button.clocked-in:active {
-  background-color: #555;
-  box-shadow: 0 1px 4px rgba(102, 102, 102, 0.3);
+.oval-button.disabled:active {
+  background-color: #d0d0d0;
+  transform: scale(0.98);
 }
 
 .button-text {
@@ -138,4 +206,70 @@
   font-weight: bold;
   color: white;
   letter-spacing: 0.5px;
+}
+
+/* 时段记录摘要 */
+.periods-summary {
+  width: 90%;
+  max-width: 320px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.summary-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.period-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.period-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.period-type {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: white;
+}
+
+.period-type.main-period {
+  background-color: #1aad19;
+}
+
+.period-type.overtime-period {
+  background-color: #ff6b35;
+}
+
+.period-time {
+  font-size: 13px;
+  color: #333;
+  flex: 1;
+  font-family: 'Courier New', monospace;
+}
+
+.period-duration {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
 }

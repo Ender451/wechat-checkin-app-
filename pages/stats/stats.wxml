@@ -1,10 +1,6 @@
 
 <!--stats.wxml-->
 <view class="container">
-  <view class="header">
-    <text>打卡统计</text>
-  </view>
-  
   <view class="stats-cards">
     <view class="card">
       <view class="card-title">总打卡天数</view>
@@ -14,6 +10,16 @@
     <view class="card">
       <view class="card-title">平均工作时长</view>
       <view class="card-value">{{stats.avgWorkTime}}</view>
+    </view>
+    
+    <view class="card">
+      <view class="card-title">加班天数</view>
+      <view class="card-value">{{stats.totalOvertimeDays}}</view>
+    </view>
+    
+    <view class="card">
+      <view class="card-title">总加班时长</view>
+      <view class="card-value">{{stats.totalOvertimeTime}}</view>
     </view>
     
     <view class="card">
@@ -28,31 +34,50 @@
   </view>
   
   <view class="filter-section">
-    <view class="filter-item">
-      <text>月份筛选：</text>
-      <picker mode="date" fields="month" value="{{selectedMonth}}" bindchange="onMonthChange">
-        <view class="picker">{{displayMonthText}}</view>
-      </picker>
+    <view class="filter-label">时间筛选</view>
+    <view class="filter-row">
+      <view class="filter-select {{isRecent30Days || isAllTime ? '' : 'active'}}">
+        <picker mode="date" fields="month" value="{{selectedMonth}}" bindchange="onMonthChange">
+          <view class="select-btn">{{selectedMonth || '选择月份'}}</view>
+        </picker>
+      </view>
+      <button class="filter-btn {{isAllTime ? 'active' : ''}}" bindtap="resetToAllTime">
+        <text>全部时间</text>
+      </button>
+      <button class="filter-btn {{isRecent30Days ? 'active' : ''}}" bindtap="resetToRecentDays">
+        <text>最近30天</text>
+      </button>
     </view>
-    <button class="reset-btn" bindtap="resetToRecentDays">最近30天</button>
   </view>
   
   <view class="chart-section">
     <view class="chart-title">{{chartTitle}}</view>
-    <canvas canvas-id="timeChart" class="chart-canvas"></canvas>
-    <view class="chart-legend">
-      <view class="legend-item">
-        <view class="legend-color" style="background-color: #1aad19;"></view>
-        <text>上班时间</text>
+    <view wx:if="{{chartData}}">
+      <canvas canvas-id="timeChart" class="chart-canvas"></canvas>
+      <view class="chart-legend">
+        <view class="legend-item">
+          <view class="legend-color" style="background-color: #1aad19;"></view>
+          <text>上班时间</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-color" style="background-color: #e64340;"></view>
+          <text>下班时间</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-color" style="background-color: rgba(0, 122, 255, 0.4);"></view>
+          <text>工作时长</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-color" style="background-color: rgba(255, 107, 53, 0.6);"></view>
+          <text>加班时长</text>
+        </view>
       </view>
-      <view class="legend-item">
-        <view class="legend-color" style="background-color: #e64340;"></view>
-        <text>下班时间</text>
+      <view class="chart-note" wx:if="{{isAllTime && records.length > 90}}">
+        <text>📊 数据点过多，图表已采样显示。统计数据基于全部数据。</text>
       </view>
-      <view class="legend-item">
-        <view class="legend-color" style="background-color: #007aff;"></view>
-        <text>工作时长</text>
-      </view>
+    </view>
+    <view wx:else class="no-chart-tip">
+      <text>📅 请选择时间范围以查看趋势图表</text>
     </view>
   </view>
 </view>

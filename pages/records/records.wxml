@@ -1,10 +1,6 @@
 
 <!--records.wxml-->
 <view class="container">
-  <view class="header">
-    <text>打卡记录</text>
-  </view>
-  
   <!-- 月份筛选 -->
   <view class="filter-section">
     <view class="filter-item">
@@ -20,9 +16,8 @@
     <!-- 表头 -->
     <view class="table-row table-header">
       <text class="table-cell date-cell">日期</text>
-      <text class="table-cell time-cell">上班</text>
-      <text class="table-cell time-cell">下班</text>
-      <text class="table-cell duration-cell">工作时长</text>
+      <text class="table-cell periods-cell">工作时段</text>
+      <text class="table-cell duration-cell">总时长</text>
     </view>
     
     <!-- 数据行 - 支持左滑删除 -->
@@ -42,9 +37,42 @@
             <view class="date-main">{{item.dateStr}}</view>
             <view class="date-week">{{item.weekDay}}</view>
           </view>
-          <text class="table-cell time-cell" bindtap="editRecord" data-index="{{index}}">{{item.clockIn || '--'}}</text>
-          <text class="table-cell time-cell" bindtap="editRecord" data-index="{{index}}">{{item.clockOut || '--'}}</text>
-          <text class="table-cell duration-cell" bindtap="editRecord" data-index="{{index}}">{{item.duration || '--'}}</text>
+          
+          <!-- 时段信息 -->
+          <view class="table-cell periods-cell" bindtap="editRecord" data-index="{{index}}">
+            <block wx:if="{{item.periods.length === 0}}">
+              <view class="empty-periods">
+                <text>暂无时段记录</text>
+              </view>
+            </block>
+            <block wx:else>
+              <!-- 显示时段 -->
+              <block wx:for="{{item.displayPeriods}}" wx:key="index" wx:for-item="period" wx:for-index="periodIndex">
+                <view class="period-row {{period.type === 'main' ? 'main-period' : 'overtime-period'}}">
+                  <text class="period-type">{{period.type === 'main' ? '主' : '加'}}</text>
+                  <text class="period-time">{{period.clockIn}}-{{period.clockOut || '进行中'}}</text>
+                </view>
+              </block>
+              
+              <!-- 有更多时段时显示统计 -->
+              <block wx:if="{{item.hasMorePeriods}}">
+                <view class="summary-row">
+                  <block wx:if="{{item.moreMainCount > 0}}">
+                    <view class="summary-item main-summary">
+                      <text class="summary-text">+{{item.moreMainCount}}主</text>
+                    </view>
+                  </block>
+                  <block wx:if="{{item.moreOvertimeCount > 0}}">
+                    <view class="summary-item overtime-summary">
+                      <text class="summary-text">+{{item.moreOvertimeCount}}加</text>
+                    </view>
+                  </block>
+                </view>
+              </block>
+            </block>
+          </view>
+          
+          <text class="table-cell duration-cell" bindtap="editRecord" data-index="{{index}}">{{item.totalDuration || '--'}}</text>
         </view>
       </view>
     </block>
@@ -52,5 +80,12 @@
     <view wx:if="{{groupedRecords.length === 0}}" class="empty-tip">
       <text>暂无打卡记录</text>
     </view>
+  </view>
+  
+  <!-- 数据管理按钮 - 移动到底部 -->
+  <view class="data-management-bottom">
+    <button class="export-btn" bindtap="exportData">导出数据</button>
+    <button class="import-btn" bindtap="importData" bindlongpress="onImportLongPress">导入数据</button>
+    <button wx:if="{{showClearButton}}" class="clear-btn" bindtap="clearAllData">清空数据</button>
   </view>
 </view>

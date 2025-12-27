@@ -5,20 +5,85 @@
   min-height: 100vh;
 }
 
-.header {
-  padding: 20px 20px 10px 20px;
+
+
+/* 数据管理区域 - 流式布局 */
+.data-management-bottom {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ffffff;
+  margin: 0 15px 15px 15px; /* 减少左右边距 */
+  border-radius: 8px;
+  padding: 12px; /* 减少内边距 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.export-btn, .import-btn, .clear-btn {
+  flex: 1;
+  font-size: 13px; /* 调大字体 */
+  padding: 6px 10px; /* 减少内边距 */
+  line-height: 1.4;
+  margin: 0 6px; /* 减少左右间距 */
+  border-radius: 4px;
+  border: 1px solid;
+  font-weight: normal;
+  white-space: nowrap;
   text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
+}
+
+.export-btn {
+  background-color: #007aff;
+  color: white;
+  border-color: #007aff;
+}
+
+.export-btn:active {
+  background-color: #0056d6;
+  border-color: #0056d6;
+}
+
+.import-btn {
+  background-color: #34c759;
+  color: white;
+  border-color: #34c759;
+}
+
+.import-btn:active {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.clear-btn {
+  background-color: #ff4757;
+  color: white;
+  border-color: #ff4757;
+  animation: slideInFade 0.3s ease-out;
+}
+
+.clear-btn:active {
+  background-color: #ff3838;
+  border-color: #ff3838;
+}
+
+/* 清空按钮出现动画 */
+@keyframes slideInFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* 筛选区域 */
 .filter-section {
-  margin: 0 20px 20px 20px;
+  margin: 15px 15px 15px 15px; /* 减少左右边距 */
   background-color: #fff;
   border-radius: 8px;
-  padding: 15px;
+  padding: 12px 15px; /* 减少内边距 */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
@@ -33,25 +98,25 @@
 }
 
 .filter-item text {
-  font-size: 14px;
+  font-size: 15px; /* 调大字体 */
   color: #333;
   white-space: nowrap;
 }
 
 .picker {
   flex: 1;
-  padding: 8px 12px;
+  padding: 6px 10px; /* 减少内边距 */
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 14px; /* 调大字体 */
   color: #333;
   background-color: #fff;
   min-width: 0;
 }
 
 .reset-btn {
-  font-size: 12px;
-  padding: 8px 12px;
+  font-size: 13px; /* 调大字体 */
+  padding: 6px 10px; /* 减少内边距 */
   line-height: 1.4;
   margin: 0;
   white-space: nowrap;
@@ -60,7 +125,7 @@
 
 /* 表格样式 */
 .record-table {
-  margin: 0 20px 20px 20px;
+  margin: 0 15px 20px 15px; /* 减少左右边距 */
   background-color: #fff;
   border-radius: 8px;
   overflow: hidden;
@@ -71,7 +136,7 @@
   display: flex;
   align-items: stretch;
   border-bottom: 1px solid #f0f0f0;
-  min-height: 60px;
+  min-height: 60px; /* 减少高度，优化间距 */
 }
 
 .table-row:last-child {
@@ -81,7 +146,7 @@
 .table-header {
   background-color: #f7f7f7;
   font-weight: bold;
-  min-height: 50px;
+  min-height: 45px; /* 减少表头高度 */
 }
 
 /* 左滑删除容器 */
@@ -134,31 +199,32 @@
   background-color: #f7f7f7;
 }
 
-/* 重新设计列宽，去掉操作列，优化工作时长显示 */
+/* 重新设计列宽，支持多时段显示 */
 .date-cell {
-  flex: 0 0 85px;
-  padding: 12px 8px;
+  flex: 0 0 75px; /* 减少宽度 */
+  padding: 8px 4px; /* 减少内边距 */
 }
 
-.time-cell {
-  flex: 0 0 70px;
-  padding: 12px 6px;
+.periods-cell {
+  flex: 4; /* 增加宽度，减少空白 */
+  padding: 8px 4px; /* 减少内边距 */
+  min-width: 0;
+  /* 移除相关定位设置 */
 }
 
 .duration-cell {
-  flex: 1;
-  padding: 12px 8px;
-  min-width: 0;
+  flex: 0 0 90px; /* 减少宽度 */
+  padding: 8px 4px; /* 减少内边距 */
   text-align: center;
 }
 
 .table-cell {
-  font-size: 14px;
+  font-size: 15px; /* 调大基础字体 */
   color: #333;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* 恢复居中 */
   word-break: keep-all;
   white-space: nowrap;
   overflow: hidden;
@@ -167,13 +233,14 @@
 
 .table-header .table-cell {
   color: #666;
-  font-size: 13px;
-  line-height: 1.4;
+  font-size: 14px; /* 调大表头字体 */
+  line-height: 1.3;
+  font-weight: 600;
 }
 
 /* 日期单元格特殊样式 */
 .date-main {
-  font-size: 14px;
+  font-size: 16px; /* 调大日期字体 */
   font-weight: bold;
   color: #333;
   line-height: 1.2;
@@ -181,10 +248,10 @@
 }
 
 .date-week {
-  font-size: 11px;
+  font-size: 12px; /* 调大星期字体 */
   color: #666;
   line-height: 1.2;
-  margin-top: 2px;
+  margin-top: 1px; /* 减少间距 */
   text-align: center;
 }
 
@@ -198,21 +265,157 @@
 /* 工作时长单元格 - 优化显示 */
 .duration-cell {
   font-family: monospace;
-  font-size: 13px;
+  font-size: 14px; /* 调大字体 */
   color: #333;
-  font-weight: 500;
+  font-weight: 600;
   justify-content: center;
   align-items: center;
   text-align: center;
   flex: 1.2; /* 增加工作时长列的宽度 */
-  min-width: 90px; /* 确保有足够空间显示完整的工作时长 */
+  min-width: 95px; /* 确保有足够空间显示完整的工作时长 */
 }
 
 .duration-cell .table-cell {
-  font-size: 13px;
+  font-size: 14px; /* 调大字体 */
   color: #333;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
+}
+
+/* 时段行样式 */
+.period-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 6px 2px 6px; /* 增加左右内边距，确保背景完全覆盖内容 */
+  border-radius: 3px;
+  margin-bottom: 3px; /* 减少间距 */
+  font-size: 13px; /* 调大字体 */
+  cursor: pointer;
+  transition: background-color 0.2s;
+  /* 移除相对定位，气泡相对于periods-cell定位 */
+}
+
+.period-row:hover {
+  background-color: rgba(0, 122, 255, 0.1);
+}
+
+.period-row:last-child {
+  margin-bottom: 0;
+}
+
+/* 空时段提示 */
+.empty-periods {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px; /* 减少内边距 */
+  color: #999;
+  font-size: 13px;
+  min-height: 30px; /* 减少最小高度 */
+}
+
+/* 更多时段提示 */
+.more-periods {
+  display: flex; /* 改为flex布局 */
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 6px; /* 与时段时间保持间距 */
+}
+
+.more-periods-text {
+  background-color: #007aff;
+  color: white;
+  font-size: 10px; /* 稍微调小字体 */
+  padding: 2px 5px; /* 调整内边距 */
+  border-radius: 5px; /* 稍微调小圆角 */
+  font-weight: 500;
+  white-space: nowrap;
+  display: block;
+  line-height: 1.1;
+  min-width: 16px; /* 减小最小宽度 */
+  text-align: center;
+}
+
+.period-row.main-period {
+  background-color: rgba(26, 173, 25, 0.1);
+}
+
+.period-row.overtime-period {
+  background-color: rgba(255, 107, 53, 0.1);
+}
+
+.period-type {
+  flex: 0 0 18px; /* 稍微调大 */
+  height: 18px; /* 稍微调大 */
+  background-color: #1aad19;
+  color: white;
+  border-radius: 2px;
+  font-size: 11px; /* 调大字体 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 8px; /* 增加间距到8px，与统计行gap一致 */
+}
+
+.overtime-period .period-type {
+  background-color: #ff6b35;
+}
+
+.period-time {
+  flex: 1; /* 保持弹性布局 */
+  font-size: 14px; /* 调大字体 */
+  color: #333;
+  font-family: 'Courier New', monospace;
+  display: flex; /* 使用flex布局 */
+  align-items: center;
+  white-space: nowrap;
+  /* 移除overflow设置，让内容自然流动 */
+}
+
+/* 统计行样式 */
+.summary-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 6px 2px 30px; /* 调整左边距：18px(时段类型) + 6px(间距) + 6px(内边距) */
+  border-radius: 3px;
+  margin-bottom: 3px;
+  font-size: 13px;
+  justify-content: flex-start; /* 左对齐 */
+  align-self: flex-start; /* 强制左对齐，覆盖父元素的居中 */
+  margin-left: 0; /* 确保没有左边距偏移 */
+  text-align: left; /* 文本左对齐 */
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 左对齐 */
+  flex-shrink: 0;
+}
+
+.summary-text {
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+  white-space: nowrap;
+  display: block;
+  line-height: 1.2;
+  min-width: 24px;
+  text-align: center;
+}
+
+.main-summary .summary-text {
+  background-color: #1aad19;
+}
+
+.overtime-summary .summary-text {
+  background-color: #ff6b35;
 }
 
 .empty-tip {

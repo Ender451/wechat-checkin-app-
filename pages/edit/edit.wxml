@@ -4,28 +4,74 @@
     <text>编辑打卡记录</text>
   </view>
   
-  <view class="form">
-    <view class="form-item">
-      <text class="label">日期：</text>
-      <text class="date-value">{{date}}</text>
+  <view class="date-section">
+    <text class="date-label">日期：</text>
+    <text class="date-value">{{date}}</text>
+  </view>
+  
+  <!-- 时段列表 -->
+  <view class="periods-section">
+    <view class="section-header">
+      <text class="section-title">工作时段</text>
+      <button class="add-period-btn" bindtap="addPeriod">+ 添加时段</button>
     </view>
     
-    <view class="form-item">
-      <text class="label">上班时间：</text>
-      <picker mode="time" value="{{clockIn}}" bindchange="onClockInChange">
-        <view class="picker-view">
-          {{clockIn || '选择上班时间'}}
+    <view class="periods-list">
+      <view class="period-item {{conflictIndex === periodIndex ? 'conflict' : ''}}" wx:for="{{periods}}" wx:key="id" wx:for-index="periodIndex">
+        <view class="period-header">
+          <view class="period-type-info">
+            <picker mode="selector" range="{{periodTypes}}" range-key="label" value="{{item.typeIndex}}" bindchange="onPeriodTypeChange" data-index="{{periodIndex}}">
+              <view class="period-type-badge {{item.type === 'main' ? 'main-badge' : 'overtime-badge'}}">
+                {{item.type === 'main' ? '主时段' : '加班时段'}}
+              </view>
+            </picker>
+            <text class="period-duration">{{item.displayDuration}}</text>
+          </view>
+          <view class="period-actions">
+            <button class="delete-period-btn" bindtap="deletePeriod" data-index="{{periodIndex}}">删除</button>
+          </view>
         </view>
-      </picker>
+        
+        <view class="period-times">
+          <view class="time-item">
+            <text class="time-label">开始时间：</text>
+            <picker mode="time" value="{{item.clockIn}}" bindchange="onClockInChange" data-index="{{periodIndex}}">
+              <view class="picker-view">
+                {{item.clockIn || '选择时间'}}
+              </view>
+            </picker>
+          </view>
+          
+          <view class="time-item">
+            <text class="time-label">结束时间：</text>
+            <picker mode="time" value="{{item.clockOut}}" bindchange="onClockOutChange" data-index="{{periodIndex}}">
+              <view class="picker-view">
+                {{item.clockOut || (isToday ? '进行中' : '选择时间')}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      
+      <view wx:if="{{periods.length === 0}}" class="empty-periods">
+        <text>暂无工作时段，点击"添加时段"创建</text>
+      </view>
     </view>
-    
-    <view class="form-item">
-      <text class="label">下班时间：</text>
-      <picker mode="time" value="{{clockOut}}" bindchange="onClockOutChange">
-        <view class="picker-view">
-          {{clockOut || '选择下班时间'}}
-        </view>
-      </picker>
+  </view>
+  
+  <!-- 统计信息 -->
+  <view class="statistics-section" wx:if="{{periods.length > 0}}">
+    <view class="stat-item">
+      <text class="stat-label">总工作时长：</text>
+      <text class="stat-value">{{totalDuration}}</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-label">主工作时长：</text>
+      <text class="stat-value main-duration">{{mainDuration}}</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-label">加班时长：</text>
+      <text class="stat-value overtime-duration">{{overtimeDuration}}</text>
     </view>
   </view>
   

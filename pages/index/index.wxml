@@ -1,30 +1,72 @@
 
-<!--index.wxml-->
+<!--index.wxml - 支持多时段打卡-->
 <view class="container">
-  <view class="header">
-    <text>劳动时间记录</text>
-  </view>
-  
-  <view class="time-display">
+  <view class="time-display white-card">
     <text class="current-time">{{currentTime}}</text>
     <text class="date-info">{{currentDate}}</text>
   </view>
   
-  <view class="work-duration">
-    <text class="duration-label">今日工作时长</text>
-    <text class="duration-value">{{workDuration}}</text>
+  <!-- 工作状态指示器 -->
+  <view class="status-indicator white-card" wx:if="{{statusText}}">
+    <text class="status-text">{{statusText}}</text>
   </view>
   
-  <view class="status">
+  <!-- 工作时长详情 -->
+  <view class="duration-cards" wx:if="{{todayRecord && todayRecord.periods && todayRecord.periods.length > 0}}">
+    <!-- 总工作时长单独一行，占满宽度 -->
+    <view class="duration-card total-duration">
+      <text class="duration-label">总工作时长</text>
+      <text class="duration-value total">{{workDuration}}</text>
+    </view>
+    
+    <!-- 主工作时长和加班时长并列一行 -->
+    <view class="duration-cards-row">
+      <view class="duration-card half-width">
+        <text class="duration-label">主工作时长</text>
+        <text class="duration-value main">{{mainWorkDuration}}</text>
+      </view>
+      <view class="duration-card half-width">
+        <text class="duration-label">加班时长</text>
+        <text class="duration-value overtime">{{overtimeDuration}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 操作状态提示 -->
+  <view class="action-status white-card">
     <text>{{lastAction}}</text>
   </view>
   
+  <!-- 操作按钮区域 -->
   <view class="actions">
-    <view class="oval-button {{clockedIn || clockedOut ? 'clocked-in' : ''}}" bindtap="clockIn">
-      <text class="button-text">上班打卡</text>
+    <!-- 主工作打卡按钮（上班/下班） -->
+    <view class="oval-button {{workStatus === 'idle' || workStatus === 'break' || workStatus === 'main_working' ? '' : 'disabled'}}" 
+          bindtap="mainWorkClock">
+      <text class="button-text">{{workStatus === 'main_working' ? '下班打卡' : '上班打卡'}}</text>
     </view>
-    <view class="oval-button" bindtap="clockOut">
-      <text class="button-text">下班打卡</text>
+    
+    <!-- 加班打卡按钮（开始/结束） -->
+    <view class="oval-button {{workStatus === 'idle' || workStatus === 'break' || workStatus === 'overtime' ? '' : 'disabled'}}" 
+          bindtap="overtimeClock">
+      <text class="button-text">{{workStatus === 'overtime' ? '结束加班' : '加班打卡'}}</text>
+    </view>
+  </view>
+  
+  <!-- 今日时段记录 -->
+  <view class="periods-summary white-card" wx:if="{{todayRecord && todayRecord.periods && todayRecord.periods.length > 0}}">
+    <text class="summary-title">今日工作时段</text>
+    <view class="period-list">
+      <view class="period-item" wx:for="{{todayRecord.periods}}" wx:key="index">
+        <view class="period-type {{item.type === 'main' ? 'main-period' : 'overtime-period'}}">
+          {{item.type === 'main' ? '主时段' : '加班'}}
+        </view>
+        <view class="period-time">
+          {{item.clockIn}} - {{item.clockOut || '进行中'}}
+        </view>
+        <view class="period-duration" wx:if="{{item.duration}}">
+          {{formatDuration(item.duration)}}
+        </view>
+      </view>
     </view>
   </view>
 </view>
